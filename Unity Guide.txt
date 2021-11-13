@@ -1,0 +1,262 @@
+=================================================================================================================================================
+=================================================================================================================================================
+================================================================== UNITY GUIDE ==================================================================
+=================================================================================================================================================
+=================================================================================================================================================
+
+
+====================================================
+============= PHYSICS OBJECTS OVERVIEW =============
+====================================================
+
+
+
+============ RIGIDBODY ============
+
+Contains: 
+Details about mass
+Drag - Damper
+Angular Drag - Rotational Damper
+Use Gravity - (Is object influenced by gravity)
+Is Kinematic - Is not influenced by Physics but influences other objects.
+Interpolate - Makes sense for main character, as otherwise animations and physics aren't calculated at some times.
+Collition Detection
+Constraints - Freeze position and rotation.
+
+If you want to impact something with physics, it needs a rigid body. Otherwise it won't work.
+
+
+============ COLLIDER ============
+
+Box Collider - Makes sense for boxes or box shaped objects
+Sphere Collider - Makes sense for spheres or round shaped objects
+Mesh Collider - A skin on top of the looks of the graphics themselves. (Player with specific kind of form.
+Capsule Collider - Makes sense for capsules but could work for players.
+Terrain Collider - Makes sense for mountains or other terrains.
+
+Each Collider has something called:
+
+"Is Trigger" which will make each object have a trigger.
+Material / Physics Material (Adds friction / bounciness / etc.)
+Center - Center of our collider
+Radius (For Spheres) - To change size of Sphere Colliders
+
+============ TRIGGERS ============
+
+In order to use an object or Physics Collider as a trigger,
+You need to activate the Is Trigger Property.
+
+When Is Trigger is active, it deactivates Colliders (Objects could simply pass through physical things)
+This is great for invisible walls that need to start an event when passed through.
+
+Great for collectibles.
+
+The Is Trigger makes something happen when the trigger is set.
+
+
+
+==================================================================================================================================================
+================================================================== HOW-TO GUIDE ==================================================================
+==================================================================================================================================================
+
+
+==========================================
+ How to add physics materials to objects?
+==========================================
+
+First create a physics material (Right Click assets and choose create > physic material)
+Give your prefered name to the new material.
+You will see properties like dynamic friction, static friction, bounciness, friction combine and bounce combine.
+Edit the values to your liking.
+Drag and drop your new material to your object (in either the hierarchy tab or the object itself in the scene)
+Or click on the object and in the Inspector tab in the collider section, go to the material dropdown menu and select your newly created material. 
+
+======================================
+ How to have a ground that is bouncy?
+======================================
+
+Add a material.
+First create a physics material (Right Click assets and choose create > physic material)
+Give your prefered name to the new asset.
+
+- Set all friction values to 0. (Optional)
+- Add a value to the bounciness. (Value of 1 means that object will bounce with the same force that it came with).
+
+
+====================================
+ How to set up friction in objects?
+====================================
+
+Add a material.
+First create a physics material (Right Click assets and choose create > physic material)
+Give your prefered name to the new asset.
+
+- Set bounciness value to 0. (Optional)
+- Add a value to the static and dynamic friction. 
+
+
+========================
+ How to use Is Trigger?
+========================
+
+Creating an example with a ball and a cube sized to be a wall.
+When the ball passes through the cube, i want the cube to disappear.
+How to do this? 
+
+First you need to create a new script.
+The start and update method is not needed so you can delete it.
+
+Whenever something needs to happen whenever an object is hit by another object, we need to use the OnTriggerEnter method.
+
+Script code below: 
+
+private void OnTriggerEnter(Collider other)
+{
+	print("Trigger");
+	// This method destroys the game object passed.
+	// In this case, gameObject is the object that contains this trigger script.
+	Destroy(gameObject);
+}
+
+====================================
+ How to keep your assets organized?
+====================================
+
+Create folders for scripts, materials, physic materials, etc.
+
+
+============================================
+ What are prefabs / how to create prefabs?
+============================================
+ 
+Prefabs or prefabricates are objects that have specific properties that you'd like to reuse.
+To create prefabs, just drag the object you want to reuse from the hierarchy tab into the assets folder.
+
+Recommend to have players as prefab in order to use it in other scenes.
+Also, add a prefabs folder for all your prefabs.
+
+============================================
+ What are components and how to use them?
+============================================
+
+Component functionality is fundamental.
+It allows you to add functionality, looks or physics to objects.
+
+The components can be seen in the Inspector tab.
+
+To add components to an object, simply select the object and
+in the Inspector tab, scroll down to the bottom of the tab and click add component.
+
+You can also copy components from one object and paste them into another 
+by clicking the 3 vertical dots in each component section.
+
+You can move components up or down (in order) in your Inspector tab.
+
+(Be careful when moving or deleting components since it could break your prefab instances
+If you want to alter components, do it in your prefab (Located in assets) and not 
+in an instance of your prefab (located in the hierarchy tab)).
+
+
+============================================
+ How to keep your object hierarchy clean?
+============================================
+
+Whenever you're creating a game, there will be hundreds of thousands of objects.
+You need to keep track of all your objects. How do you do this?
+
+Create folders for each objects. For example, walls, players, bullets, etc.
+
+To create a folder, right click inside the hierarchy tab and select "Create Empty".
+Drag and drop your objects into that new Object folder. You can rename the folder by pressing F2 or 
+right clicking and renaming the folder.
+
+============================================
+ Understanding the Start and Update Method
+============================================
+
+Start method is called at the beginning, when the game starts.
+
+The Update method is called once per frame 
+(If it's 60 fps, method will be called 60 times).
+
+
+============================================
+ Understanding the Random and Mathf class
+============================================
+
+The random class is used to generate random numbers.
+For example, to generate a random number between 0 and 15:
+ 
+// This line stores a random number between 0 and 15 into a float type variable called randNum
+float randNum = Random.Range(0f, 15f);
+
+// This line of code prints the random number.
+Debug.Log(randNum);
+
+The Mathf class has a series of Math functions that will make working with math
+very easy. To access the methods, type Mathf.(A list of methods will be displayed)
+
+==========================================================
+ How to display text in the UI? (Canvas and Event System) 
+==========================================================
+
+To create some text, right click inside the hierarchy tab, select UI > Text.
+If we didn't have an UI, whenever we create it, a canvas and event system object is created automatically.
+
+When a Text is created, it's placed inside a canvas object (Text is a child of our canvas). 
+
+If you click on canvas, you can see all of its components.
+By default, the Canvas render mode is Screen Space - Overlay.
+What this does is that it will overlay whatever we assign to the UI player or space on top of the game view itself.
+(Meaning, text will always appear in the screen)
+
+Using Screen Space - Camera will position the UI element based on the camera position.
+
+Text will be displayed into the UI. If you click on the text in the Inspector tab, you can change a lot of 
+text properties including font size, weight, color, font (Need to download from assets), etc.
+_______________
+To Resize text, set horizontal and vertical overflow to Overflow
+
+==========================================================
+ How to change a text object programmatically? (Scripts)
+==========================================================
+
+Create a script to handle the text.
+Import the package "using UnityEngine.UI;"
+This namespace is used to create text objects.
+
+// Created a Text object:
+public Text myText;
+// Created an integer for an example.
+int textNum = 0;
+
+// Added this code to my Update Method.
+
+// Update is called once per frame
+    void Update()
+    {
+        // If the spacebar is pressed, 
+        // change text into a number.
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // INcrement textNum by 1
+            textNum++;
+            myText.text = textNum.ToString();
+        } // If Input was S
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            myText.text = "S was pressed";
+        }
+    }
+	
+Now, in Unity, add your script to an object and 
+drag a text UI object into the inspector tab, 
+where the script text variable is. IN this case, 
+it's called My Text.
+
+==========================================================
+ Best practice to manage game scores, states & other stuff
+==========================================================
+
+It's recommended to create an empty object (folder), Game manager, 
+used to collect scores, take care of states, etc.
