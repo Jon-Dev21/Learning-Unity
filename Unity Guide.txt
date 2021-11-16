@@ -260,3 +260,360 @@ it's called My Text.
 
 It's recommended to create an empty object (folder), Game manager, 
 used to collect scores, take care of states, etc.
+
+==========================================================
+                      Basics of Buttons 
+==========================================================
+
+Buttons are similar to texts in that they create canvas objects.
+They also have their own text component.
+
+The button text stretches to the size of it's parent. (Button)
+To change the button appeareance with an image, you could drag an
+image to the button's source image property in the canvas renderer component.
+
+To make the button interactable, you need to create a script.
+
+Example script: 
+
+// To use the Text class, add "using UnityEngine.UI;" to your imports in visual studio.
+public Text scoreText;
+
+// Creating our own method
+public void OnButtonPressed()
+{
+	scoreText.text = "The Button was pressed";
+}
+
+- After creating this script, add it to your button.
+- Then, drag a text object from your hierarchy into the 
+  score text variable in the script section 
+- Finally, add the button object to the OnClick method 
+  section in the inspector (while selecting the button object)
+  go to the dropdown, select your script name (In this case, "ButtonBehavior")
+  and then select the created method in the script (In this case, OnButtonPressed()).
+  
+That way, you'll be able to use your script when the button is clicked.
+
+==========================================================
+                      Variables in Unity 
+==========================================================
+
+When you declare variables in a script, you can populate those variables
+by dragging and dropping objects from the hierarchy into the script section
+in your inspector tab. The script section will contain an empty box with your 
+variable name
+
+
+==========================================================
+ Switching Scenes - How to move from one scene to another
+==========================================================
+
+In your Assets > Scenes folder, right click and select Create > Scene
+
+To move from one scene to another, create a script: 
+
+In that script, import the Scene Manager ("using UnityEngine.SceneManagement;")
+
+The SceneManager object has a method called LoadScene();
+
+LoadScene() has multiple overloads.
+You could for example say, LoadScene(1); which will take you to the scene in index 1.
+Or LoadScene("Scene Name") which will take you to the specific scene.
+
+Before executing this script, go to File > Build Settings
+and in the Scenes In Build, add the scenes you want to change from.
+(If you look closely, when the scene is added you can see the scene 
+index in the right side)
+
+
+==========================================================
+ How to play sounds on Unity / Start sound via code.
+==========================================================
+
+To get royalty free sounds, you could go to: 
+
+freesound.org, OpenGameArt.Org, 
+
+You can also go to the Asset store and search for "Absolutely Free Music"
+Download and import the package. (You can also import only the music you want.)
+
+Example: Adding sound to a cube object
+
+Add an Audio > Audio Source component to the cube.
+The audio source expects an audio clip.
+Drag a clip from your assets into the AudioClip property
+inside the Audio Source component section in the Inspector.
+
+If you start the game, you will hear the music.
+
+That is because the Play on Awake checkbox is checked by default.
+You set up the sound to your prefered settings by looping, muting, etc.
+
+
+TO PLAY SOUNDS PROGRAMMATICALLY. (Creating script)
+
+// Getting the audio source.
+    public AudioSource music;
+
+    // Update is called once per frame
+    void Update()
+    {
+        // If Input is detected,
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // If the music exists, 
+            if (music)
+            {
+                // If music is playing
+                if (music.isPlaying)
+                {
+                    // TODO Stop Music
+                    music.Stop(); 
+                }
+                else // if music is not playing
+                {
+                    // TODO Start Music
+                    music.Play();
+                }
+            }
+        }
+    }
+
+Declare an AudioSource object and check, 
+if audio source exists, it's playing and space bar is pressed, Stop
+else if audio source exists, it's not playing and space bar is pressed, Play
+
+REMEMBER TO DRAG YOUR AUDIO SOURCE TO YOUR SCRIPT VARIABLE
+IN THE UNITY EDITOR > INSPECTOR TAB. ALSO, DEACTIVATE PLAY ON AWAKE.
+
+
+==========================================================
+ How to set up Audio Sources using AudioSource
+==========================================================
+
+When you have your sounds in whichever format (.ogg, .mp3)
+
+Right click on the object you want to create an audio source for 
+and search for Audio > AudioSource.
+
+
+
+==========================================
+ 2D Games : My Background is not showing
+==========================================
+
+If you added a Quad as a background and it's not showing,
+adjust the Z value of the Quad to a positive value.
+To validate that the background is showing, add a material (color)
+to the background.
+
+===================================================================
+ 2D Games : How to make my canvas the same size as my camera view
+===================================================================
+
+Select the canvas and go to the Inspector.
+In the render mode dropdown list, select Screen Space - Camera.
+Next, drag the camera object into the Render Camera slot.
+
+Next go to the Canvas Scaler component in the Inspector and
+in UI Scale Mode, select Scale With Screen Size.
+Enter the Screen dimensions 
+(Or the dimensions of your background. Example: 1600 x 900)
+
+Finally, in Screen Match Mode, select Expand. 
+This allows the canvas to expand with the content.
+
+If you don't see your elements in the canvas, set Plane Distance to 1.
+
+
+
+========================================
+ Help!! My Button Text is not showing
+========================================
+
+To see what's happening, set the Horizontal and Vertical Overflow to Overflow.
+If your height or width can't hold the text, it will not show.
+Adjust the height and width accordingly in order for the text to appear.
+
+=============================================
+ How to get Fonts and add them to my project
+=============================================
+
+Download fonts from anywhere you like and add them to your assets. 
+(Google Fonts, Ten By Twenty, Etc.)
+
+You can drag and drop your fonts from your folder 
+into the Unity Editor Assets Folder.
+
+
+===========================================================
+ How to have a solid color in an object (Without Lighting)
+===========================================================
+
+Create a new material.
+Assign a color in the Albedo property.
+Check the Emission Checkbox. (A new Color property should show up.
+Select the color you want to emit and the object should have 
+that color no matter what.
+
+
+===========================================================
+ How to add more inputs to a game (For example, Pong)
+===========================================================
+
+In pong, you have 2 rackets. If you wanted to play pong with another player,
+Input keys would need to be different.
+
+To achieve this, go to Edit > Project Settings > Input Manager
+
+In Input Manager, you will see a number of inputs.
+To add an input, increment the number (example, if it's 30, type 31).
+
+In the case of pong, you move vertically. So you could create another input,
+vertical2 where you use the arrow keys instead of "W"  and "S".
+
+This would then help you bind the keys correctly with
+methods such as "Input.GetAxisRaw("Vertical2");".
+
+
+===========================================================
+            How to Instantiate Objects via Code
+===========================================================
+
+You can instanciate based on prefabs.
+
+To Instantiate objects, you can use the Instantiate method
+
+Example script: 
+
+// Variable for storing a prefab
+    public Transform prefab;
+
+// Start is called before the first frame update
+void Start()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		// In this overload of the Instantiate method,
+		// you pass the prefab object, a position and the rotation.
+		Instantiate(prefab, new Vector3(i* 3.0F, i + 5 , -39), Quaternion.identity);
+	}
+}
+
+This method will generate 10 objects at the start of the game.
+The object generated will depend on what prefab is passed into the script.
+
+If you add this bit of code and comment the start method, 
+you can instantiate objects each time you press the space bar.
+
+ // Update is called once per frame
+void Update()
+{
+	// When spacebar is pressed, create a new object.
+	if(Input.GetKeyDown(KeyCode.Space))
+	{
+		Instantiate(prefab, new Vector3(40, counter + 5, 0), Quaternion.identity);
+		counter++;
+	}
+}
+
+
+===========================================================
+     How to Instantiate Objects Using Invoke Repeating
+===========================================================
+
+The InvokeRepeating method Invokes the method passed in time seconds, then repeatedly every repeatRateseconds.
+
+InvokeRepeating(string methodName, float time, float repeatRate);
+
+Will use the same script as the one above, but adapted to using the InvokeRepeating method.
+
+public class InstanciateCubes : MonoBehaviour
+{
+    // Variable for storing a prefab
+    public Transform prefab;
+
+    int counter = 0;
+
+    private void Start()
+    {
+
+        InvokeRepeating(CreateNewCube, 10, 0.1);
+    }
+
+    public void CreateNewCube()
+    {
+        Instantiate(prefab, new Vector3(40, counter + 5, 0), Quaternion.identity);
+        counter++;
+		
+		if (counter >= 5000)
+        {
+			// Cancels the invoke after having created 5000 objects.
+            CancelInvoke();
+        }
+    }
+}
+
+
+TO STOP THE INVOKE REPEATING METHOD, USE THE INVOKE CANCEL METHOD.
+
+===========================================================
+     How to Use the PlayerPreferences - Saving Data
+===========================================================
+
+PlayerPreferences allows you to save data such as highscores, player names, etc.
+
+The PlayerPrefs class has 2 methods to store data.
+
+The Set and the Get method. These method have 3 variations. 
+GetInt() / SetInt(), GetFloat() / SetFloat() and GetString() / SetString() 
+
+The parameters for the get methods are a String key and you can also pass in a default value. 
+The parameters for the set methods are a String key and the value. 
+
+You can also delete keys, delete all and check if a key exists.
+
+Below you will find a script that sets an int to the highest score passed.
+Whenever the spacebar is clicked, the score will increment. 
+The highest score with the "Score" key will remain in the PlayerPrefs object 
+
+
+Here is the example script:
+
+public class SavingData : MonoBehaviour
+{
+    int score = 0;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Debug.Log("Stored score is "+ GetScore());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Increase score by 1
+            score++;
+            Debug.Log("Current Score is "+ score);
+            // If the score is greater than the score already had,
+            if (score > GetScore())
+            {
+                // Set a new score
+                PlayerPrefs.SetInt("Score", 0);
+                Debug.Log(PlayerPrefs.GetInt("Score"));
+            }
+        }
+    }
+
+    int GetScore()
+    {
+        // This method returns the integer with the corresponding passed key.
+        // If there's no value in the passed key, it will return 0.
+        int myScore = PlayerPrefs.GetInt("Score", 0);
+        return myScore;
+    }
+}
