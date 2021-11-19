@@ -617,3 +617,162 @@ public class SavingData : MonoBehaviour
         return myScore;
     }
 }
+
+
+============================================================
+  How to check if there's an object below your object
+============================================================
+
+To check if there's an object below your specific game object,
+you could use the Raycast or Ray Object.
+Create a script.
+
+(In this case, will create a script for a cube with red material)
+
+The script should look like this: 
+
+// Update is called once per frame
+void Update()
+{
+	// Structure used to get information back from a raycast.
+	RaycastHit hit;
+
+	// Physics.Raycast method has many overloads.
+	// The one used here is (raycastPositionOrigin, directionVector,MaxDistance,LayerMask)
+
+	if (Physics.Raycast(transform.position, -Vector3.up, out hit, 100f))
+	{
+		print("Something is below the object at " + hit.transform.position);
+	} else
+	{
+		print("Nothing underneath this object "+ gameObject.name);
+	}
+}
+
+This script will print if there's an object below the item. 
+If not, it will print the object name.
+
+The Physics object represents the global physics properties and helper methods.
+
+The RayCast is an operation from the camera point 
+sending out a "ray" find the surface it collides 
+with and then render the material on that surface 
+for that pixel in the screen. Additionally, light 
+sources may cast rays, and see if that shows a 
+reflection on that material.
+
+You can also use Ray.
+
+This script will tell you what is around the mouse pointer at a distance of 100 points
+
+// To know what i've hit
+RaycastHit hit;
+
+Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+// Mouse position is a vector3 with the current position of ourmouse.
+// The camera is the device from which a player views the world.
+
+// Checking if there is something within a distance of 100 from where the mouse is at.
+if (Physics.Raycast(ray, out hit, 100f))
+{
+	print("Ray hit object" + hit.collider.gameObject.name);
+}
+
+
+============================================================
+How to view things the same size no matter how far they are
+============================================================
+
+To do this, select your camera object.
+In the inspector, search for "perspective" and 
+set your camera perspective to orthographic.
+
+============================================================
+		How to set a solid color backgroud.
+============================================================
+
+To do this, select your main camera object.
+In the inspector, search for "clear flags" and 
+set your Clear Flag to Solid Color. 
+In the background property, you can set a color for 
+your background.
+
+============================================================
+How to place cubes right next to each other right perfectly
+============================================================
+
+To place cubes next to each other perfectly, select the cube you want to place
+beside another and press ctrl+shift. Then click and drag the position arrow to where
+you want to place the cube. The object will then move in a fixed distance when dragged.
+(Similar to pressing tab in a text document)
+
+============================================================
+     How to make the camera follow a specific target?
+============================================================
+
+To accomplish this, you must first create a script 
+and add it to your camera object.
+
+The script below is a good example:
+
+/// <summary>
+/// This script is used to make the camera follow the target passed 
+/// </summary>
+public class FollowCam : MonoBehaviour
+{
+    // Position of the target we want to follow (Player).
+    public Transform target;
+
+    // Offset to our player (What is our position in comparison to the player)
+    private Vector3 offset;
+
+    // Method runs when script loads
+    void Awake()
+    {
+        // Setting the offset (camera position - player position)
+        offset = transform.position - target.position;
+    }
+
+    // This method is called in every frame if the behavior is enabled.
+    // (Method usually used for camera updates)
+    private void LateUpdate()
+    {
+        // Change the position of our camera.
+        transform.position = target.position + offset;
+    }
+}
+
+
+============================================================
+     Animation Concepts
+============================================================
+
+To create an animation, right click > Create > Animation Controller
+
+The Animator tab will open and you will see a few nodes. 
+
+These include the Any State, Entry and Exit.
+
+# The Entry Node is the point whenever the animator awakes.
+
+
+To create transitions for animations, you need to create a new state node.
+To do this, right click and select create state > empty.
+
+In the Inspector > Motion property, you can select which animation will play.
+
+If you have animations from downloaded assets, you can select them and add them to your animation controller.
+
+You can create states (nodes) and transitions (arrows).
+
+When having an animation transition, you can create parameters and conditions.
+To create parameters, go to the upper left window tab and select parameters.
+There are 4 types of parameters: 
+Float, Int, Bool and Trigger.
+Select a parameter that applies and add it to your condition.
+
+To add conditions, click on the transition arrow and in the inspector you wills
+see a property called Conditions.
+Add your parameter to that condition.
+
+You can set trigger parameters using the Animator.SetTrigger method in your script.
